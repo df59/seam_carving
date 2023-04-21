@@ -27,6 +27,8 @@ int main() {
     std::cout << "\n\n\n\n\n";
     seam.print_cumulative();
 
+    seam.find_seam();
+
 
 
     // std::cout << "energy at 1" << seam.energy_matrix[1] << '\n';

@@ -7,6 +7,7 @@ class Seam {
     Seam(Image input_image);
     void fill_energy_matrix();
     void fill_cumulative_matrix();
+    void find_seam();
     int energy_coordinate(Coordinate coord);
     int cumulative_coordinate(Coordinate coord);
     int energy_width();

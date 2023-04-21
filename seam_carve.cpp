@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <math.h>
 #include <iostream>
+#include <vector>
 
 Seam::Seam(Image input)
     : input_image(input)
@@ -123,5 +124,77 @@ void Seam::fill_cumulative_matrix() {
             cumulative_matrix.push_back(cumulative_here);
             std::cout << "success at " << j << ',' << i << "with value" << cumulative_here <<'\n';
         }
+    }
+}
+
+void Seam::find_seam() {
+    std::vector<Coordinate> removed_pixels;
+    Coordinate above_left;
+    Coordinate above_middle;
+    Coordinate above_right;
+    Coordinate next_removed {0, input_image.Length()-1};
+    // bottom row
+    for(int j = 0; j < input_image.Width(); j++) {
+        Coordinate here {j, input_image.Length()-1};
+        Coordinate right {j+1, input_image.Length()-1};
+        if(j == input_image.Width()-1) {
+            right = here;
+        }
+        if(cumulative_coordinate(right) < cumulative_coordinate(next_removed)) {
+            next_removed = right;
+        }
+    }
+    std::cout << "pushing back first coordinate: " << next_removed.x << ',' << next_removed.y <<'\n';
+    removed_pixels.push_back(next_removed);
+
+    // rest of matrix
+
+    for(int i = input_image.Length()-1; i > 0; i--) {
+            above_left = {next_removed.x-1, next_removed.y-1};
+            above_middle = {next_removed.x, next_removed.y-1};
+            above_right = {next_removed.x+1, next_removed.y-1};
+
+            if(above_middle.x == 0) {
+                above_left.x = above_middle.x;
+            }
+
+            if(above_middle.x == input_image.Width()-1) {
+                above_right.x = above_middle.x;
+            }
+
+            // if(above_middle.y == 0) {
+            //     above_right.y = 0;
+            //     above_left.y = 0;
+            // }
+            next_removed = above_left;
+            if(cumulative_coordinate(above_middle) < cumulative_coordinate(next_removed)) {
+                next_removed = above_middle;
+            }
+            if(cumulative_coordinate(above_right) < cumulative_coordinate(next_removed)) {
+                next_removed = above_right;
+            }
+
+    removed_pixels.push_back(next_removed);
+    }
+
+
+
+    // for(int i = input_image.Length()-1; i >= 0; i--) {
+    //     Coordinate here {0, i};
+    //     Coordinate right {1, i};
+    //     removed_pixels.push_back(here);
+    //     for(int j = 0; j < input_image.Width(); j++) {
+    //         here.x = j;
+    //         right.x = j+1;
+    //         if(cumulative_coordinate(right) < cumulative_coordinate(here)) {
+    //             removed_pixels[i] = right;
+    //         }
+    //     }
+    // }
+
+    //print removed pixels
+    std::cout << "removed pixels:\n";
+    for(auto i : removed_pixels) {
+        std::cout << i.x  << ',' << i.y << '\n';
     }
 }
