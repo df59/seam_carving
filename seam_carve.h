@@ -10,10 +10,6 @@ class Seam {
     void find_seam();
     int energy_coordinate(Coordinate coord);
     int cumulative_coordinate(Coordinate coord);
-    int energy_width();
-    int energy_length();
-    int cumulative_width();
-    int cumulative_length();
     void print_energy();
     void print_cumulative();
 

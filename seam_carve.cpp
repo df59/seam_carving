@@ -7,25 +7,6 @@
 Seam::Seam(Image input)
     : input_image(input)
 {
-    // energy_matrix.resize(input_image.Size());
-    // cumulative_matrix.resize(input_image.Size());
-
-}
-
-int Seam::energy_length() {
-
-}
-
-int Seam::energy_width() {
-
-}
-
-int Seam::cumulative_length() {
-
-}
-
-int Seam::cumulative_width() {
-
 }
 
 void Seam::print_energy() {
@@ -80,13 +61,11 @@ void Seam::fill_energy_matrix() {
             if(j == input_image.Width()-1) {
                 right = here;
             }
-            // energy_matrix.push_back(input_image[below]);
             energy_matrix.push_back(
             abs(input_image[above] - input_image[here]) +
             abs(input_image[below] - input_image[here]) +
             abs(input_image[right] - input_image[here]) +
             abs(input_image[left] - input_image[here]));
-            // std::cout << "energy matrix at " << j << "," << i << ' ' << energy_matrix[energy_coordinate(j, i)] << '\n';
         }
     }
 }
@@ -111,7 +90,6 @@ void Seam::fill_cumulative_matrix() {
             // top row
             if(i == 0) {
                 cumulative_here = energy_coordinate(here);
-                // std::cout << "setting cumulative_here to " << energy_matrix[energy_coordinate(here)] <<'\n';
             } else {
 
             cumulative_here = std::min(
@@ -122,7 +100,6 @@ void Seam::fill_cumulative_matrix() {
             }
 
             cumulative_matrix.push_back(cumulative_here);
-            // std::cout << "success at " << j << ',' << i << "with value" << cumulative_here <<'\n';
         }
     }
 }
@@ -132,6 +109,7 @@ void Seam::find_seam() {
     Coordinate above_middle;
     Coordinate above_right;
     Coordinate next_removed {0, input_image.Length()-1};
+
     // bottom row
     for(int j = 0; j < input_image.Width(); j++) {
         Coordinate here {j, input_image.Length()-1};
@@ -143,11 +121,9 @@ void Seam::find_seam() {
             next_removed = right;
         }
     }
-    std::cout << "pushing back first coordinate: " << next_removed.x << ',' << next_removed.y <<'\n';
     removed_pixels.push_back(next_removed);
 
     // rest of matrix
-
     for(int i = input_image.Length()-1; i > 0; i--) {
             above_left = {next_removed.x-1, next_removed.y-1};
             above_middle = {next_removed.x, next_removed.y-1};
@@ -161,10 +137,6 @@ void Seam::find_seam() {
                 above_right.x = above_middle.x;
             }
 
-            // if(above_middle.y == 0) {
-            //     above_right.y = 0;
-            //     above_left.y = 0;
-            // }
             next_removed = above_left;
             if(cumulative_coordinate(above_middle) < cumulative_coordinate(next_removed)) {
                 next_removed = above_middle;
@@ -175,25 +147,4 @@ void Seam::find_seam() {
 
     removed_pixels.push_back(next_removed);
     }
-
-
-
-    // for(int i = input_image.Length()-1; i >= 0; i--) {
-    //     Coordinate here {0, i};
-    //     Coordinate right {1, i};
-    //     removed_pixels.push_back(here);
-    //     for(int j = 0; j < input_image.Width(); j++) {
-    //         here.x = j;
-    //         right.x = j+1;
-    //         if(cumulative_coordinate(right) < cumulative_coordinate(here)) {
-    //             removed_pixels[i] = right;
-    //         }
-    //     }
-    // }
-
-    //print removed pixels
-    // std::cout << "removed pixels:\n";
-    // for(auto i : removed_pixels) {
-    //     std::cout << i.x  << ',' << i.y << '\n';
-    // }
 }
