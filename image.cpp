@@ -48,7 +48,7 @@ Image::Image(const std::string filename) {
         while(input_file.peek() == ' ' || input_file.peek() == '\n') {
             input_file.ignore();
         }
-        while(input_file.peek() != ' '){
+        while(input_file.peek() != ' ' && input_file.peek() != '\n'){
             input_file >> temp_line;
         }
         assert(!temp_line.empty());
@@ -70,6 +70,9 @@ int Image::Length() const {
 
 int Image::MaxVal() const {
     return max_val;
+}
+int Image::Size() const {
+    return pixels.size();
 }
 
 

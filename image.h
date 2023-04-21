@@ -14,6 +14,7 @@ class Image {
     int Length() const;
     int MaxVal() const;
     void print_matrix();
+    int Size() const;
 
     int operator[](Coordinate &coordinate);
 
