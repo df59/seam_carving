@@ -22,6 +22,13 @@ int main() {
     std::cout << "\n\n\n\n\n";
     seam.print_energy();
 
+    seam.fill_cumulative_matrix();
+
+    std::cout << "\n\n\n\n\n";
+    seam.print_cumulative();
+
+
+
     // std::cout << "energy at 1" << seam.energy_matrix[1] << '\n';
 
 // Coordinate coord {6, 38};

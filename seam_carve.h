@@ -6,8 +6,9 @@ class Seam {
     public:
     Seam(Image input_image);
     void fill_energy_matrix();
-    int energy_coordinate(int x, int y);
-    int cumulative_coordinate(int x, int y);
+    void fill_cumulative_matrix();
+    int energy_coordinate(Coordinate coord);
+    int cumulative_coordinate(Coordinate coord);
     int energy_width();
     int energy_length();
     int cumulative_width();
