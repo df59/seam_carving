@@ -18,6 +18,7 @@ class Image {
     int Size() const;
     void remove_seam(std::vector<Coordinate> removed_pixels);
     void write_to_file();
+    void transpose();
 
     int operator[](Coordinate &coordinate);
 

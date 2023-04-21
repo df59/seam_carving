@@ -136,6 +136,27 @@ void Image::write_to_file() {
         }
         output_file << '\n';
     }
+}
+
+void Image::transpose() {
+    // reverse width and length
+    int prev_width = width;
+    int prev_length = length;
+    int new_width = prev_length;
+    int new_length = prev_width;
+    std::vector<int> new_pixels;
+    new_pixels.resize(pixels.size());
+
+    for(int i = 0; i < new_length; i++) {
+        for(int j = 0; j < new_width; j++) {
+            new_pixels[(new_width * i) + j] = pixels[(prev_width * j) + i];
+        }
+    }
+    pixels.clear();
+    pixels = new_pixels;
+
+    width = new_width;
+    length = new_length;
 
 
 }

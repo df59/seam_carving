@@ -26,24 +26,52 @@ int main(int argc, char *argv[]) {
 
     for(int i = 0; i < input_vertical_seams; i++) {
 
-    Seam seam(image_to_process);
+        Seam seam(image_to_process);
 
-    seam.fill_energy_matrix();
-    // std::cout << "\n\n\n\n\n";
-    // seam.print_energy();
+        seam.fill_energy_matrix();
+                    // std::cout << "\n\n\n\n\n";
+                    // seam.print_energy();
 
-    seam.fill_cumulative_matrix();
+        seam.fill_cumulative_matrix();
 
-    // std::cout << "\n\n\n\n\n";
-    // seam.print_cumulative();
+        // std::cout << "\n\n\n\n\n";
+        // seam.print_cumulative();
 
-    seam.find_seam();
+        seam.find_seam();
 
-    image_to_process.remove_seam(seam.removed_pixels);
+        image_to_process.remove_seam(seam.removed_pixels);
+    }
+
+    image_to_process.transpose();
+
+    for(int i = 0; i < input_horizontal_seams; i++) {
+
+        Seam seam(image_to_process);
+
+        seam.fill_energy_matrix();
+                    // std::cout << "\n\n\n\n\n";
+                    // seam.print_energy();
+
+        seam.fill_cumulative_matrix();
+
+        // std::cout << "\n\n\n\n\n";
+        // seam.print_cumulative();
+
+        seam.find_seam();
+
+        image_to_process.remove_seam(seam.removed_pixels);
     }
     // std::cout << "processed matrix:\n\n\n\n\n\n";
-    image_to_process.print_matrix();
+    // image_to_process.print_matrix();
+
+    // image_to_process.print_matrix();
+
+    // std::cout << "\n\n\n\n\ntransposed:\n\n";
+
+    image_to_process.transpose();
     image_to_process.write_to_file();
+
+    // image_to_process.print_matrix();
 
 
 
