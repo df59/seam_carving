@@ -1,3 +1,5 @@
+#include <stdexcept>
+#include <string>
 #include <vector>
 #include <string.h>
 #include <assert.h>
@@ -6,8 +8,12 @@
 
 #include "image.h"
 
-Image::Image(const std::string filename) {
+Image::Image(const std::string input_filename, const int input_vertical_seams, const int input_horizontal_seams) {
+    filename = input_filename;
+    num_horizontal_seams = input_horizontal_seams;
+    num_vertical_seams = input_vertical_seams;
     std::ifstream input_file(filename);
+
 
     // get P2 header
     getline(input_file, header, '\n');
@@ -54,7 +60,7 @@ Image::Image(const std::string filename) {
         assert(!temp_line.empty());
         pixels.push_back(std::stoi(temp_line));
         temp_line.clear();
-        std::cout << "index " << i << " " << pixels[i] << '\n';
+        // std::cout << "index " << i << " " << pixels[i] << '\n';
         assert(pixels[i] <= max_val);
     }
 
@@ -81,11 +87,56 @@ int Image::operator[](Coordinate &coordinate) {
 }
 
 void Image::print_matrix() {
-for(int i = 0; i < length; i++) {
-    for(int j = 0; j < width; j++) {
-        int index =((width * i) + j);
-        std::cout << pixels[index] << ' ';
+    for(int i = 0; i < length; i++) {
+        for(int j = 0; j < width; j++) {
+            int index =((width * i) + j);
+            std::cout << pixels[index] << ' ';
+        }
+        std::cout << '\n';
     }
-    std::cout << '\n';
 }
+
+void Image::remove_seam(std::vector<Coordinate> removed_pixels) {
+    for(int i = 0; i < length-1; i++) {
+        assert(removed_pixels[i].y > removed_pixels[i+1].y);
+    }
+
+    for(auto i : removed_pixels) {
+        pixels[(width * i.y) + i.x] = max_val + 100;
+    }
+
+    for(int i = 0; i < pixels.size(); i++) {
+        if(pixels[i] > max_val) {
+            pixels.erase(pixels.begin() + i);
+        }
+    }
+
+    width = width-1;
 }
+
+void Image::write_to_file() {
+    std::string output_filename = filename;
+    int dot = output_filename.find(".pgm");
+    output_filename.resize(dot);
+    output_filename = output_filename + "_" + "processed_" + std::to_string(num_vertical_seams) +
+    "_" + std::to_string(num_horizontal_seams) + ".pgm";
+
+
+    std::ofstream output_file;
+
+    output_file.open(output_filename);
+
+    output_file << header << '\n' << comment << '\n';
+    output_file << width << ' ' << length << '\n';
+    output_file << max_val << '\n';
+
+    for(int i = 0; i < length; i++) {
+        for(int j = 0; j < width; j++) {
+            output_file << pixels[((width * i) + j)] << ' ';
+        }
+        output_file << '\n';
+    }
+
+
+}
+

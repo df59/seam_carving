@@ -122,13 +122,12 @@ void Seam::fill_cumulative_matrix() {
             }
 
             cumulative_matrix.push_back(cumulative_here);
-            std::cout << "success at " << j << ',' << i << "with value" << cumulative_here <<'\n';
+            // std::cout << "success at " << j << ',' << i << "with value" << cumulative_here <<'\n';
         }
     }
 }
 
 void Seam::find_seam() {
-    std::vector<Coordinate> removed_pixels;
     Coordinate above_left;
     Coordinate above_middle;
     Coordinate above_right;
@@ -193,8 +192,8 @@ void Seam::find_seam() {
     // }
 
     //print removed pixels
-    std::cout << "removed pixels:\n";
-    for(auto i : removed_pixels) {
-        std::cout << i.x  << ',' << i.y << '\n';
-    }
+    // std::cout << "removed pixels:\n";
+    // for(auto i : removed_pixels) {
+    //     std::cout << i.x  << ',' << i.y << '\n';
+    // }
 }

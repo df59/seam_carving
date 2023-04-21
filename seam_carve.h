@@ -17,6 +17,8 @@ class Seam {
     void print_energy();
     void print_cumulative();
 
+    std::vector<Coordinate> removed_pixels;
+
     private:
     Image input_image;
     std::vector<int> energy_matrix;
