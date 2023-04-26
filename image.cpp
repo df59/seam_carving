@@ -19,7 +19,9 @@ Image::Image(const std::string input_filename, const int input_vertical_seams, c
     getline(input_file, header, '\n');
 
     // get comment header
+    while(input_file.peek() == '#') {
     getline(input_file, comment, '\n');
+    }
 
     // get width
     while(input_file.peek() != ' ') {
@@ -109,6 +111,7 @@ void Image::remove_seam(std::vector<Coordinate> removed_pixels) {
 }
 
 void Image::write_to_file() {
+    std::cout << "writing to file";
     std::string output_filename = filename;
     int dot = output_filename.find(".pgm");
     output_filename.resize(dot);
