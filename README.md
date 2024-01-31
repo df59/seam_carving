@@ -7,9 +7,13 @@ of vertical and horizontal seams, making the resulting image smaller in the leas
 humanly detectable way possible.
 
 To compile run:
+
 mkdir build
+
 cd build
+
 cmake ..
+
 make
 
 To run:
