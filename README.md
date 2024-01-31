@@ -13,4 +13,4 @@ cmake ..
 make
 
 To run:
-./seam_carve <image file and directory> <number of vertical seams> <number of horizontal seams>
+./seam_carve (image file and directory) (number of vertical seams) (number of horizontal seams)
