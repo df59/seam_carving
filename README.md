@@ -1,5 +1,7 @@
-Image Seam Carver,
-Dustin Franklin,
+Image Seam Carver
+
+Dustin Franklin
+
 df59@uakron.edu
 
 This program takes in a black and white .pgm image and removes a user specified number
